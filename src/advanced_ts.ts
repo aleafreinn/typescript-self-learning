@@ -119,3 +119,52 @@ let person: Readonly<Bio> = {
 
 // person.name = 'Isra'
 // return error due to read only, cannot be changed despite the data type 'let'
+
+// BASIC GENERICS
+// -> Generics let you infer the types based on the type aliases with <_type_>
+
+function getItems<T>(items: T[]): T[] {
+  return new Array<T>().concat(items);
+}
+
+let concatResult: number[] = getItems<number>([1, 2, 3, 4]);
+let concatString: string[] = getItems<string>(["s", "m", "l", "xl"]);
+let concatRand = getItems([3, "a", true]);
+// -> we declare the datatype based on the generic that has been inferred to
+// the explicit type annotation from the function.
+// -> the third variable 'concatRand' follows the value's data type if we dont
+// declare the datatype itself when invoking the function.
+
+// CLASSES IN TS
+
+class EmployeeMain {
+  protected id: number;
+  public name: string;
+  public address: string;
+
+  constructor(name: string, address: string) {
+    this.id = Math.floor(Math.random() * 1000);
+    this.name = name;
+    this.address = address;
+  }
+
+  public getNameWithAddress(): string {
+    const newId: number = this.id + 1;
+    return `${this.name} stays at ${this.address} with id: ${newId}`;
+  }
+}
+
+class Manager extends EmployeeMain {
+  private occupation: string;
+  protected id: number;
+  constructor(name: string, address: string, occupation: string) {
+    super(name, address);
+    this.id = Math.floor(Math.random() * 1000);
+    this.occupation = occupation;
+  }
+
+  getNameWithOccupation(): string {
+    this.id = 3;
+    return `${this.name} is a manager in ${this.occupation}`;
+  }
+}
